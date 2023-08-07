@@ -8,14 +8,48 @@
 import SwiftUI
 
 struct ContentView: View {
+    @AppStorage("searchText") var searchText = ""
+    @State private var tracks = [Track]()
+    
+    let gridItems: [GridItem] = [
+        GridItem(.adaptive(minimum: 150, maximum: 200)),
+    ]
+    
+    func performSearch() async throws {
+        guard let url = URL(string: "https://itunes.apple.com/search?term=\(searchText)&limit=100&entity=song") else { return }
+        let (data, _) = try await URLSession.shared.data(from: url)
+        let searchResults = try JSONDecoder().decode(SearchResult.self, from: data)
+        tracks = searchResults.results
+    }
+    
+    func startSearch() {
+        Task {
+            try await performSearch()
+        }
+    }
+    
     var body: some View {
         VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, world!")
+            HStack {
+                TextField("Search for a song", text: $searchText)
+                    .onSubmit(startSearch)
+                Button("Search", action: startSearch)
+            }
+            .padding([.top, .horizontal])
+            
+            ScrollView {
+                LazyVGrid(columns: gridItems) {
+                    ForEach(tracks) { track in
+                        AsyncImage(url: track.artworkUrl) { image in
+                            image.resizable()
+                        } placeholder: {
+                            ProgressView()
+                        }
+                        .frame(width: 150, height: 150)
+                    }
+                }
+            }
         }
-        .padding()
     }
 }
 

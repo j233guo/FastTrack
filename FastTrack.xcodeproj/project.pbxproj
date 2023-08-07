@@ -14,6 +14,7 @@
 		C96376962A7F17A900DC2454 /* FastTrackTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96376952A7F17A900DC2454 /* FastTrackTests.swift */; };
 		C96376A02A7F17A900DC2454 /* FastTrackUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C963769F2A7F17A900DC2454 /* FastTrackUITests.swift */; };
 		C96376A22A7F17A900DC2454 /* FastTrackUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96376A12A7F17A900DC2454 /* FastTrackUITestsLaunchTests.swift */; };
+		C9F4D6852A807465007F4ADB /* Track.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F4D6842A807465007F4ADB /* Track.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,6 +46,7 @@
 		C963769B2A7F17A900DC2454 /* FastTrackUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FastTrackUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C963769F2A7F17A900DC2454 /* FastTrackUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FastTrackUITests.swift; sourceTree = "<group>"; };
 		C96376A12A7F17A900DC2454 /* FastTrackUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FastTrackUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		C9F4D6842A807465007F4ADB /* Track.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Track.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,6 +99,7 @@
 			children = (
 				C96376832A7F17A800DC2454 /* FastTrackApp.swift */,
 				C96376852A7F17A800DC2454 /* ContentView.swift */,
+				C9F4D6842A807465007F4ADB /* Track.swift */,
 				C96376872A7F17A900DC2454 /* Assets.xcassets */,
 				C963768C2A7F17A900DC2454 /* FastTrack.entitlements */,
 				C96376892A7F17A900DC2454 /* Preview Content */,
@@ -261,6 +264,7 @@
 			files = (
 				C96376862A7F17A800DC2454 /* ContentView.swift in Sources */,
 				C96376842A7F17A800DC2454 /* FastTrackApp.swift in Sources */,
+				C9F4D6852A807465007F4ADB /* Track.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
