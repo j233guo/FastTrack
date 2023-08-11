@@ -5,11 +5,13 @@
 //  Created by Jiaming Guo on 2023-08-05.
 //
 
+import AVKit
 import SwiftUI
 
 struct ContentView: View {
     @AppStorage("searchText") var searchText = ""
     @State private var tracks = [Track]()
+    @State private var audioPlayer: AVPlayer?
     
     let gridItems: [GridItem] = [
         GridItem(.adaptive(minimum: 150, maximum: 200)),
@@ -28,6 +30,12 @@ struct ContentView: View {
         }
     }
     
+    func play(_ track: Track) {
+        audioPlayer?.pause()
+        audioPlayer = AVPlayer(url: track.previewUrl)
+        audioPlayer?.play()
+    }
+    
     var body: some View {
         VStack {
             HStack {
@@ -39,8 +47,11 @@ struct ContentView: View {
             
             ScrollView {
                 LazyVGrid(columns: gridItems) {
-                    ForEach(tracks, content: TrackView.init)
+                    ForEach(tracks) { track in
+                        TrackView(track: track, onSelected: play)
+                    }
                 }
+                .padding()
             }
         }
     }

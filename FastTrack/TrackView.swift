@@ -10,9 +10,11 @@ import SwiftUI
 struct TrackView: View {
     let track: Track
     
+    let onSelected: (Track) -> Void
+    
     var body: some View {
         Button {
-            print("Play \(track.trackName)")
+            onSelected(track)
         } label: {
             ZStack(alignment: .bottom) {
                 AsyncImage(url: track.artworkUrl) { phase in
@@ -31,8 +33,10 @@ struct TrackView: View {
                 
                 VStack {
                     Text(track.trackName)
+                        .lineLimit(2)
                         .font(.headline)
                     Text(track.artistName)
+                        .lineLimit(2)
                         .foregroundStyle(.secondary)
                 }
                 .padding(5)
@@ -46,6 +50,8 @@ struct TrackView: View {
 
 struct TrackView_Previews: PreviewProvider {
     static var previews: some View {
-        TrackView(track: Track(trackId: 1, artistName: "Nirvana", trackName: "Smells Like Teen Spirit", previewUrl: URL(string: "abc")!, artworkUrl100: "https://bit.ly/teen-spirit"))
+        TrackView(track: Track(trackId: 1, artistName: "Nirvana", trackName: "Smells Like Teen Spirit", previewUrl: URL(string: "abc")!, artworkUrl100: "https://bit.ly/teen-spirit")) { track in
+            
+        }
     }
 }
