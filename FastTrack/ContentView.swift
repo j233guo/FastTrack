@@ -8,16 +8,22 @@
 import AVKit
 import SwiftUI
 
+enum SearchState {
+    case none, searching, success, error
+}
+
 struct ContentView: View {
     @AppStorage("searchText") var searchText = ""
     @State private var tracks = [Track]()
     @State private var audioPlayer: AVPlayer?
+    @State private var searchState: SearchState = .none
     
     let gridItems: [GridItem] = [
         GridItem(.adaptive(minimum: 150, maximum: 200)),
     ]
     
     func performSearch() async throws {
+        guard let searchText = searchText.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else { return }
         guard let url = URL(string: "https://itunes.apple.com/search?term=\(searchText)&limit=100&entity=song") else { return }
         let (data, _) = try await URLSession.shared.data(from: url)
         let searchResults = try JSONDecoder().decode(SearchResult.self, from: data)
@@ -26,7 +32,13 @@ struct ContentView: View {
     
     func startSearch() {
         Task {
-            try await performSearch()
+            do {
+                searchState = .searching
+                try await performSearch()
+                searchState = .success
+            } catch {
+                searchState = .error
+            }
         }
     }
     
@@ -45,13 +57,29 @@ struct ContentView: View {
             }
             .padding([.top, .horizontal])
             
-            ScrollView {
-                LazyVGrid(columns: gridItems) {
-                    ForEach(tracks) { track in
-                        TrackView(track: track, onSelected: play)
+            switch searchState {
+            case .none:
+                Text("Enter a search keyword to begin")
+                    .font(.headline)
+                    .foregroundColor(.secondary)
+                    .frame(maxHeight: .infinity)
+            case .searching:
+                ProgressView()
+                    .frame(maxHeight: .infinity)
+            case .success:
+                ScrollView {
+                    LazyVGrid(columns: gridItems) {
+                        ForEach(tracks) { track in
+                            TrackView(track: track, onSelected: play)
+                        }
                     }
+                    .padding()
                 }
-                .padding()
+            case .error:
+                Text("Search failed. Please check your connection.")
+                    .font(.headline)
+                    .foregroundColor(.secondary)
+                    .frame(maxHeight: .infinity)
             }
         }
     }

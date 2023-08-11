@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct TrackView: View {
+    @State private var isOnHover = false
+    
     let track: Track
     
     let onSelected: (Track) -> Void
@@ -30,6 +32,7 @@ struct TrackView: View {
                     }
                 }
                 .frame(width: 150, height: 150)
+                .scaleEffect(isOnHover ? 1.2 : 1)
                 
                 VStack {
                     Text(track.trackName)
@@ -45,6 +48,12 @@ struct TrackView: View {
             }
         }
         .buttonStyle(.borderless)
+        .border(.blue, width: isOnHover ? 2 : 0)
+        .onHover { hover in
+            withAnimation {
+                isOnHover = hover
+            }
+        }
     }
 }
 
